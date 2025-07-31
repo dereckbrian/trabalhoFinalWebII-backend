@@ -24,6 +24,7 @@ public class TokenService {
             String token = JWT.create()
                     .withIssuer("ifg-condo-api")
                     .withSubject(user.getEmail())
+                    .withClaim("role", user.getRole()) 
                     .withExpiresAt(this.generateExpirationDate())
                     .sign(algorithm);
             return token;
@@ -46,5 +47,18 @@ public class TokenService {
     }
     private Instant generateExpirationDate(){
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
+    }
+     public String extractRole(String token) {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+            return JWT.require(algorithm)
+                    .withIssuer("ifg-condo-api")
+                    .build()
+                    .verify(token)
+                    .getClaim("role")  // Obtém a role do token
+                    .asString();
+        } catch (JWTVerificationException exception) {
+            return null;
+        }
     }
 }

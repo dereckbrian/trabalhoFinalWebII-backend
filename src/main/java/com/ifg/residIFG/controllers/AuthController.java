@@ -47,7 +47,7 @@ public class AuthController {
             user2.setPassword(passwordEncoder.encode(body.password()));
             user2.setEmail(body.email());
             user2.setName(body.name());
-
+             // TESTE,DPS EXCLUA
             this.repository.save(user2);
 
             String token = this.tokenService.generateToken(user2);
