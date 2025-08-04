@@ -3,7 +3,9 @@ package com.ifg.residIFG.controllers;
 import com.ifg.residIFG.domain.user.User;
 import com.ifg.residIFG.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,4 +23,11 @@ public class AdminController {
     public List<User> getUsers() {
         return userRepository.findAll();  // Retorna todos os usuários do banco de dados
     }
+    @GetMapping("/users/{id}")
+public ResponseEntity<User> getUserById(@PathVariable String id) {
+    return userRepository.findById(id)
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
+}
+
 }

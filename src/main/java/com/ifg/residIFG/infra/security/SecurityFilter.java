@@ -20,7 +20,7 @@ import java.util.Collections;
 public class SecurityFilter extends OncePerRequestFilter {
     @Autowired
     TokenService tokenService;
-
+    @Autowired
     UserRepository userRepository;
 
     @Override
@@ -36,6 +36,11 @@ public class SecurityFilter extends OncePerRequestFilter {
             var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()));
             var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            System.out.println("Login: " + login);
+System.out.println("Role extraída do token: " + role);
+System.out.println("Autorização aplicada: ROLE_" + role.toUpperCase());
+
         }
         filterChain.doFilter(request, response);
     }
@@ -45,6 +50,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (authHeader == null|| !authHeader.startsWith("Bearer ")) {
             return null;
         }
-        return authHeader.replace("Bearer","");
+        return authHeader.replace("Bearer ", "").trim();
+
         }
 }
