@@ -29,6 +29,9 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "profilePicture")
+    private String profilePicture;
+
     public User() {
 
     }
