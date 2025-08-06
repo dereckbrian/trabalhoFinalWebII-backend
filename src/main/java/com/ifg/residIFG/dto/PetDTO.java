@@ -1,7 +1,13 @@
 package com.ifg.residIFG.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.ifg.residIFG.domain.user.User;
 
+import lombok.Getter;
+import lombok.Setter;
+@Getter
+@Setter
 public class PetDTO {
     private String id;
     private String nome;
@@ -9,8 +15,10 @@ public class PetDTO {
     private String tamanho;
     private String cor;
     private User dono;  // ID do dono (referência ao usuário)
-
+    private MultipartFile imagem;
     // Construtores, getters e setters
+    public PetDTO() {
+    }
     public PetDTO(Long id, String nome, String raca, String tamanho, String cor, User dono) {
         this.id = String.valueOf(id);  // Certifique-se de que o id seja convertido para String
         this.nome = nome;
@@ -67,5 +75,11 @@ public class PetDTO {
 
     public void setDono(User dono) {
         this.dono = dono;
+    }
+    public MultipartFile getImagem(){
+        return this.imagem;
+    }
+    public void setImagem(MultipartFile imagem){
+        this.imagem=imagem;
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +40,10 @@ public ResponseEntity<User> getUserById(@PathVariable String id) {
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
 }
+ @PostMapping("/users/add")
+    public User addUser(@RequestBody User user) {
+        return userRepository.save(user);
+    }
 @PutMapping("/users/{id}")
 public ResponseEntity<User> updateUser(@PathVariable String id, @RequestBody User updatedUser) {
     return userRepository.findById(id)

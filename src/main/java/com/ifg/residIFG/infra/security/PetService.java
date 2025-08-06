@@ -35,11 +35,11 @@ public class PetService {
     }
 
     // Adicionar um novo pet
-    /* public PetDTO savePet(Pet pet) {
+    public PetDTO savePet(Pet pet) {
         User dono = userRepository.findById(pet.getDono().getId()).orElseThrow(() -> new RuntimeException("Dono não encontrado"));
         pet.setDono(dono);
         Pet savedPet = petRepository.save(pet);
         String donoId = (savedPet.getDono() != null) ? savedPet.getDono().getId() : null;  // Verifica se dono não é null
-        return new PetDTO(savedPet.getId(), savedPet.getNome(), savedPet.getRaca(), savedPet.getTamanho(), savedPet.getCor(), donoId);
-    }*/
+        return new PetDTO();
+    }
 }

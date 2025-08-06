@@ -1,11 +1,16 @@
 package com.ifg.residIFG.domain.pet;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ifg.residIFG.domain.user.User;
 
 import jakarta.persistence.*;
-
+import lombok.Getter;
+import lombok.Setter;
+@Getter
+@Setter
 @Entity
 public class Pet {
     @Id
@@ -16,7 +21,7 @@ public class Pet {
     private String raca;
     private String tamanho;
     private String cor;
-
+    private String imagem;
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
      @JsonBackReference
