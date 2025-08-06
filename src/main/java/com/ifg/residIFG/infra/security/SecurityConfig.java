@@ -37,6 +37,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET,"/admin/pets/all").permitAll()  
                         .requestMatchers("/admin/pets/**").authenticated() 
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/images/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);

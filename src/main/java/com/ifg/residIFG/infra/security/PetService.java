@@ -24,14 +24,14 @@ public class PetService {
     public List<PetDTO> findAllPets() {
         List<Pet> pets = petRepository.findAll();
         return pets.stream()
-                   .map(pet -> new PetDTO(pet.getId(), pet.getNome(), pet.getRaca(), pet.getTamanho(), pet.getCor(), pet.getDono()))
+                   .map(pet -> new PetDTO(pet.getId(), pet.getNome(), pet.getRaca(), pet.getTamanho(), pet.getCor(), pet.getDono(), pet.getImagem()))
                    .collect(Collectors.toList());
     }
 
     // Buscar um pet por ID
     public PetDTO findPetById(Long petId) {
         Pet pet = petRepository.findById(petId).orElseThrow(() -> new RuntimeException("Pet não encontrado"));
-        return new PetDTO(pet.getId(), pet.getNome(), pet.getRaca(), pet.getTamanho(), pet.getCor(), pet.getDono());
+        return new PetDTO(pet.getId(), pet.getNome(), pet.getRaca(), pet.getTamanho(), pet.getCor(), pet.getDono(),pet.getImagem());
     }
 
     // Adicionar um novo pet

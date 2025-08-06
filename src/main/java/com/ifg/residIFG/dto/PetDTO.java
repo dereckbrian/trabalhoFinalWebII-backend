@@ -15,17 +15,18 @@ public class PetDTO {
     private String tamanho;
     private String cor;
     private User dono;  // ID do dono (referência ao usuário)
-    private MultipartFile imagem;
+    private String imagem;
     // Construtores, getters e setters
     public PetDTO() {
     }
-    public PetDTO(Long id, String nome, String raca, String tamanho, String cor, User dono) {
+    public PetDTO(Long id, String nome, String raca, String tamanho, String cor, User dono, String imagem) {
         this.id = String.valueOf(id);  // Certifique-se de que o id seja convertido para String
         this.nome = nome;
         this.raca = raca;
         this.tamanho = tamanho;
         this.cor = cor;
         this.dono = dono;
+        this.imagem= imagem;
     }
 
     // Getters e Setters
@@ -76,10 +77,5 @@ public class PetDTO {
     public void setDono(User dono) {
         this.dono = dono;
     }
-    public MultipartFile getImagem(){
-        return this.imagem;
-    }
-    public void setImagem(MultipartFile imagem){
-        this.imagem=imagem;
-    }
+    
 }
