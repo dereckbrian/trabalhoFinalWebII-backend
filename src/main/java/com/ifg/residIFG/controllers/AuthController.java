@@ -1,19 +1,16 @@
 package com.ifg.residIFG.controllers;
 
+import com.ifg.residIFG.domain.pacotes.Pacotes;
 import com.ifg.residIFG.domain.user.User;
 import com.ifg.residIFG.dto.LoginResquestDTO;
-import com.ifg.residIFG.dto.RegisterRequestDTO;
 import com.ifg.residIFG.dto.ResponseDTO;
 import com.ifg.residIFG.repository.UserRepository;
 import com.ifg.residIFG.infra.security.TokenService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.id.uuid.StandardRandomStrategy;
-import org.springframework.data.jpa.domain.JpaSort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,19 +18,22 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Optional;
 import java.util.UUID;
+import com.ifg.residIFG.dto.AddPackageDTO;
+import  com.ifg.residIFG.repository.PackageRepository;
 
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor //Serva para não precisar colocar o @Autowired em todos os private final
 public class AuthController {
 
-    private final UserRepository repository;
+    private final UserRepository userRepository;
+    private final PackageRepository packageRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginResquestDTO body){
-        User user = this.repository.findByEmail(body.email()).orElseThrow(() -> new RuntimeException("User not Found"));
+        User user = this.userRepository.findByEmail(body.email()).orElseThrow(() -> new RuntimeException("User not Found"));
         if(passwordEncoder.matches(body.password(), user.getPassword())){
             String token = this.tokenService.generateToken(user);
             return ResponseEntity.ok(new ResponseDTO(user.getName(), token));
@@ -51,7 +51,7 @@ public class AuthController {
         if (password == null || password.isEmpty()) {
             return ResponseEntity.badRequest().body("A senha não pode ser nula ou vazia.");
         }
-        Optional<User> user = this.repository.findByEmail(email);
+        Optional<User> user = this.userRepository.findByEmail(email);
         if (user.isEmpty()) {
 
             String profilePictureUrl = null;
@@ -70,11 +70,32 @@ public class AuthController {
             user2.setRole(role);
             user2.setProfilePicture(profilePictureUrl);
              // TESTE,DPS EXCLUA
-            this.repository.save(user2);
+            this.userRepository.save(user2);
 
             String token = this.tokenService.generateToken(user2);
 
             return ResponseEntity.ok(new ResponseDTO(user2.getName(), token));
+        }
+
+        return ResponseEntity.badRequest().build();
+    }
+
+    @PostMapping(value = "/addPackage")
+    public ResponseEntity addPackage(@RequestBody AddPackageDTO body){
+
+        Optional<Pacotes> pacotes = this.packageRepository.findByCodigoRastreio(body.codigoRastreio());
+        if (pacotes.isEmpty()) {
+
+            Pacotes pacotes1 = new Pacotes();
+            pacotes1.setNome(body.nome());
+            pacotes1.setData(body.data());
+            pacotes1.setDestinatario(body.destinatario());
+            pacotes1.setRemetente(body.remetente());
+            pacotes1.setCodigoRastreio(body.codigoRastreio());
+            // TESTE,DPS EXCLUA
+            this.packageRepository.save(pacotes1);
+
+            return ResponseEntity.ok(pacotes1.getNome());
         }
 
         return ResponseEntity.badRequest().build();
