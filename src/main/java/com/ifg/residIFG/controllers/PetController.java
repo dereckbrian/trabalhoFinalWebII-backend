@@ -9,6 +9,7 @@ import com.ifg.residIFG.repository.PetRepository;
 import com.ifg.residIFG.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -69,14 +70,24 @@ public class PetController {
     }
 
     @GetMapping("/{id}")
-    public Pet getPetById(@PathVariable Long id) {
-        Optional<Pet> pet = petRepository.findById(id); // Aqui está o uso correto do Optional
-        if (pet.isPresent()) {
-            return pet.get(); // Se presente, retorna o pet
-        } else {
-            throw new RuntimeException("Pet não encontrado com o id: " + id); // Lança um erro caso não seja encontrado
-        }
+public ResponseEntity<PetDTO> getPetById(@PathVariable Long id) {
+    Optional<Pet> pet = petRepository.findById(id);
+
+    if (pet.isPresent()) {
+        PetDTO petDTO = new PetDTO(
+            pet.get().getId(),
+            pet.get().getNome(),
+            pet.get().getRaca(),
+            pet.get().getTamanho(),
+            pet.get().getCor(),
+            pet.get().getDono(), 
+            pet.get().getImagem()
+        );
+        return ResponseEntity.ok(petDTO); // Retorna o pet com status 200 (OK)
+    } else {
+        throw new RuntimeException("Pet não encontrado com o id: " + id); // Exceção personalizada
     }
+}
 
     // Listar pets de um usuário específico (com base no dono)
     @GetMapping("/user/{userId}")
@@ -92,7 +103,13 @@ public class PetController {
         pet.setRaca(petDetails.getRaca());
         pet.setTamanho(petDetails.getTamanho());
         pet.setCor(petDetails.getCor());
-        pet.setDono(petDetails.getDono()); // Atualiza o dono
+
+        // Atribui o dono ao pet
+    if (petDetails.getDono() != null && petDetails.getDono().getId() != null) {
+        User dono = userRepository.findById(petDetails.getDono().getId())
+                .orElseThrow(() -> new RuntimeException("Dono não encontrado"));
+        pet.setDono(dono);
+    }
         return petRepository.save(pet);
     }
 
