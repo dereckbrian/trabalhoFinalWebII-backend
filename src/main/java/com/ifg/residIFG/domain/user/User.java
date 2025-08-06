@@ -34,6 +34,9 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "profilePicture")
+    private String profilePicture;
+
     @OneToMany(mappedBy = "dono", fetch = FetchType.EAGER)
      @JsonManagedReference 
     private List<Pet> pets;
