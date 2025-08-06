@@ -28,7 +28,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         
-         http
+         /* http
           .csrf(csrf -> csrf.disable())
           .cors(Customizer.withDefaults())
           .sessionManagement(session ->
@@ -41,9 +41,9 @@ public class SecurityConfig {
           .requestMatchers("/admin/**").hasRole("ADMIN")
           .anyRequest().authenticated()
           )
-          .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
+          .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class); */
         
-        /* http
+         http
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -51,14 +51,14 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                         .requestMatchers(HttpMethod.GET,"/admin/pets/all").permitAll()  
+                        .requestMatchers(HttpMethod.POST, "/auth/addPackage").permitAll()
                         .requestMatchers("/admin/pets/**").authenticated() 
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/images/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
-                        .requestMatchers(HttpMethod.POST, "/auth/addPackage").permitAll() // Permitir aqui sem filtro
-                        .anyRequest().authenticated()); */
+                        
         return http.build();
     }
 

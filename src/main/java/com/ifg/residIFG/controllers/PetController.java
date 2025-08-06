@@ -45,7 +45,7 @@ public class PetController {
 
         // Salva a imagem e obtém o caminho
         String imagePath = saveImage(imagemFile);
-
+                
         // Converte o DTO para a entidade Pet
         Pet pet = new Pet();
         pet.setNome(petDTO.getNome());
