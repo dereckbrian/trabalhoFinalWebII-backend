@@ -1,6 +1,11 @@
 package com.ifg.residIFG.domain.user;
 
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.ifg.residIFG.domain.pet.Pet;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,7 +34,10 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    public User() {
+    @OneToMany(mappedBy = "dono", fetch = FetchType.EAGER)
+     @JsonManagedReference 
+    private List<Pet> pets;
+    public User(){
 
     }
 }
