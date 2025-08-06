@@ -38,8 +38,8 @@ public class SecurityFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             System.out.println("Login: " + login);
-System.out.println("Role extraída do token: " + role);
-System.out.println("Autorização aplicada: ROLE_" + role.toUpperCase());
+            System.out.println("Role extraída do token: " + role);
+            System.out.println("Autorização aplicada: ROLE_" + role.toUpperCase());
 
         }
         filterChain.doFilter(request, response);
