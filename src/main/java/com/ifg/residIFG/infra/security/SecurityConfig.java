@@ -43,7 +43,7 @@ public class SecurityConfig {
           )
           .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class); */
         
-         http
+         /* http
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -55,11 +55,20 @@ public class SecurityConfig {
                         .requestMatchers("/admin/pets/**").authenticated() 
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/images/**").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers(HttpMethod.POST, "/packages/add").permitAll() // Permite apenas para usuários autenticados
+
+                    
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
                         
-        return http.build();
+        return http.build(); */
+        http
+        .csrf(csrf -> csrf.disable())
+        .cors(Customizer.withDefaults())
+        .authorizeHttpRequests(authorize -> authorize
+            .anyRequest().permitAll()
+        );
+    return http.build();
     }
 
     @Bean
