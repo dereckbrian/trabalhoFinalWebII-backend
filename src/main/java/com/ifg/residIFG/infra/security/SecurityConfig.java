@@ -43,7 +43,7 @@ public class SecurityConfig {
           )
           .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class); */
         
-         /* http
+         http
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -61,15 +61,17 @@ public class SecurityConfig {
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
                         
-        return http.build(); */
-        http
+        return http.build();}
+        /* http
         .csrf(csrf -> csrf.disable())
         .cors(Customizer.withDefaults())
         .authorizeHttpRequests(authorize -> authorize
             .anyRequest().permitAll()
-        );
-    return http.build();
+        ); 
+        return http.build();
     }
+        */
+    
 
     @Bean
     public PasswordEncoder passwordEncoder() {
