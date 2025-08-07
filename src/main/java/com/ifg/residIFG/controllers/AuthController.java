@@ -36,7 +36,7 @@ public class AuthController {
         User user = this.userRepository.findByEmail(body.email()).orElseThrow(() -> new RuntimeException("User not Found"));
         if(passwordEncoder.matches(body.password(), user.getPassword())){
             String token = this.tokenService.generateToken(user);
-            return ResponseEntity.ok(new ResponseDTO(user.getName(), token));
+            return ResponseEntity.ok(new ResponseDTO(user.getName(),token,user.getProfilePicture() ));
         }
         return  ResponseEntity.badRequest().build();
     }
@@ -74,7 +74,7 @@ public class AuthController {
 
             String token = this.tokenService.generateToken(user2);
 
-            return ResponseEntity.ok(new ResponseDTO(user2.getName(), token));
+            return ResponseEntity.ok(new ResponseDTO(user2.getName(), token,user2.getProfilePicture()));
         }
 
         return ResponseEntity.badRequest().build();
@@ -114,7 +114,7 @@ public class AuthController {
 
         Files.copy(imageFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-        return "/images" + fileName;
+        return "/images/" + fileName;
     }
 
 }
