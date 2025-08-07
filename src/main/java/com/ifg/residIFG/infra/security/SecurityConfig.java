@@ -55,7 +55,14 @@ public class SecurityConfig {
                         .requestMatchers("/admin/pets/**").authenticated() 
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/images/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/packages/add").permitAll() // Permite apenas para usuários autenticados
+                        .requestMatchers(HttpMethod.GET, "/packages/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/packages/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/packages/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/packages/**").permitAll()
+
+                        .requestMatchers(HttpMethod.POST, "/packages/add").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/packages/all").permitAll()
+                        // Permite apenas para usuários autenticados
 
                     
                 )
